@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0
 
 pragma solidity ^0.8.0;
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC1155/ERC1155Upgradeable.sol";
 
-contract oplus is ERC1155,Ownable{
+contract oplus is Initializable,ERC1155Upgradeable,OwnableUpgradeable{
     uint256 public tokenId;
 
     mapping(uint256 => string) private _uris;
@@ -12,7 +13,10 @@ contract oplus is ERC1155,Ownable{
     mapping(address => rewards[]) public myrewards;
     mapping(string => uint256) public couponIndex;
 
-    constructor() ERC1155("") {}
+    function initialize() public initializer {
+        __ERC1155_init("");
+        __Ownable_init();
+    }
 
     struct sdata {
         string uin;
